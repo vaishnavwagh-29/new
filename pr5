@@ -1,0 +1,65 @@
+import pandas as pd
+
+def add_delete_rule(base, add="", delete_suffix=""):
+
+    if delete_suffix and base.endswith(delete_suffix):
+        new_word = base[:-len(delete_suffix)] + add
+    else:
+        new_word = base + add
+
+    return new_word
+
+examples = [
+    ("play", "ing", ""),
+    ("walk", "ed", ""),
+    ("cat", "s", ""),
+    ("try", "ies", "y"),
+]
+
+data = []
+
+for base, add, delete in examples:
+
+    result = add_delete_rule(base, add, delete)
+
+    data.append([
+        base,
+        add,
+        delete if delete else "-",
+        result
+    ])
+
+df = pd.DataFrame(
+    data,
+    columns=["Base Word", "Add", "Delete", "Result Word"]
+)
+
+print(df)
+
+
+####################
+
+def morphology(base, prefix="", suffix="", delete_suffix=""):
+  if delete_suffix and base.endswith(delete_suffix):
+   base = base[:-len(delete_suffix)]
+  return prefix + base + suffix
+
+
+examples2 = [
+  ("happy", "un", "", ""),
+  ("possible", "im", "", ""),
+  ("regular", "ir", "", ""),
+  ("use", "", "ful", ""),
+  ("act", "", "ion", "")
+  ]
+
+
+data2 = []
+
+
+for base, prefix, suffix, delete in examples2:
+   result = morphology(base, prefix, suffix, delete)
+   data2.append([base, prefix if prefix else "-",suffix if suffix else "-",delete if delete else "-",result])
+
+df2 = pd.DataFrame(data2,columns=["Base", "Prefix Add", "Suffix Add", "Delete", "Result"])
+print(df2)
